@@ -18,4 +18,3 @@ mongoose.connect(url,connectionParams)
 
 module.exports = mongoose;
 
-// mongodb+srv://antoniomangado:YT%40123456@dbproviders.wdtx7f9.mongodb.net/
