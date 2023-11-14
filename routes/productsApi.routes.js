@@ -10,7 +10,7 @@ const productApiControllers = require("../controllers/productsApi.controllers")
 const router = require('express').Router()
 
 router.get('/:id?', (productApiControllers.getProduct));
-router.put("/", (productApiControllers.updateProduct));
+router.put("/:id?", (productApiControllers.updateProduct));
 router.delete("/:title?", (productApiControllers.deleteProduct));
 router.post("/", (productApiControllers.createProduct))
 

@@ -22,15 +22,15 @@ MongoClient.connect(url, function(err, db) {
   ];
 
 
-//     dbo.collection("customers").insertMany(myobj, function(err, res) {
-//     if (err) throw err;
-//     console.log("Number of documents inserted: " + res.insertedCount);
-//     db.close();
-// });
+    // dbo.collection("customers").insertMany(myobj, function(err, res) {
+    // if (err) throw err;
+    // console.log("Number of documents inserted: " + res.insertedCount);
+    // db.close();
+    // });
 
-  dbo.collection("customers").updateMany({name:/^S/},{$set:{name:"Sara"}}, function(err, res) {
+  dbo.collection("customers").updateMany({name:/^M/},{$set:{name:"Mike"}}, function(err, res) {
     if (err) throw err;
     console.log("Número de documentos actualizados: " + res.modifiedCount);
     db.close();
   });
-});
+})

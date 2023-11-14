@@ -10,8 +10,8 @@ const providersApiControllers = require("../controllers/providers.controllers")
 const router = require('express').Router()
 
 router.get('/:id?', (providersApiControllers.getProvider));
-// router.put("/", (providersApiControllers.updateProduct));
-// router.delete("/:title?", (providersApiControllers.deleteProvider));
+router.put("/:id?", (providersApiControllers.updateProvider));
+router.delete("/:title?", (providersApiControllers.deleteProvider));
 router.post("/", (providersApiControllers.createProvider))
 
 
