@@ -1,14 +1,21 @@
-const mongoose = require("mongoose");
+require("dotenv").config()
+const mongoose = require('mongoose')
 
-//mongoose.set('strictQuery', false);
-//const DATABASE_URL = "mongodb://localhost:27017/fakeshop";
-// mongoose.connect("mongodb://localhost:27017/local", { useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect("mongodb://localhost:27017/local");
+const url = process.env.MONGO_CLOUD_LINK;
 
-const db = mongoose.connection;
+const connectionParams={
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}
+mongoose.connect(url,connectionParams)
+    .then( () => {
+        console.log('Connected to the database ')
+    })
+    .catch( (err) => {
+        console.error(`Error connecting to the database. n${err}`);
+    })
 
-// Eventos
-db.on("error", error => console.log(error));
-db.once("open", () => console.log("connection to MongoDB established"));
 
 module.exports = mongoose;
+
+// mongodb+srv://antoniomangado:YT%40123456@dbproviders.wdtx7f9.mongodb.net/

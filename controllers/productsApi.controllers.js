@@ -24,35 +24,55 @@ const Product = require("../models/products.models")
 
     }catch (error) {
         console.log(`ERROR: ${error.stack}`);
-        res.status(400).json({msj:`ERROR: ${error.stack}`});
+        res.status(400).json({msj:`ERROR: invalid body format`});
     }
     }   
 
     // Update
     const updateProduct = async (req, res) => {
         try {
-            // console.log(req.params.id)
             const id = req.params.id || "";
             const data = req.body;
-            id ? await Product.updateOne({_id: id}, data) : Product.updateMany({}, { $set: data });
-            res.status(200).json({message: "Producto editado", product: await Product.find({_id: id})})
+            if (req.params.id != "") {
+                const product = await Product.find({_id: id})
+                if (product != null) {
+                    await Product.updateOne({_id: id}, data)
+                    res.status(200).json({message: "Producto editado", product: await Product.find({_id: id})})
+                    } else {
+                    res.status(404).send("Producto no encontrado: " + req.params.id)
+                    }
+            } 
+            // else {
+            // await Product.updateMany({}, { $set: data });
+            // res.status(200).json({message: "Productos editados"})
+            // }
         }
         catch (error) {
             console.log(`ERROR: ${error.stack}`);
-            res.status(400).json({msj:`ERROR: ${error.stack}`});
+            res.status(400).json({msj:`ERROR: invalid body format`});
         }
         }
 
      // Delete
      const deleteProduct = async (req, res) => {
         try {
-            const title = req.body.title || "";
-            title ? await Product.deleteOne({title: title}) : await Product.deleteMany({}) ; //{}
-            res.status(200).send("Producto borrado: " + title)
+            const productTitle = req.body.title || "";
+            const product = await Product.findOne({title: productTitle});
+                if (product != null) {
+                    await Product.deleteOne({title: productTitle})
+                    res.status(200).send("Producto borrado: " + productTitle)
+
+                } else if (product == null && req.body.title) {
+                        res.status(404).send("Producto no encontrado: " + productTitle)
+
+                } else if (product == null && !req.body.title) {
+                        await Product.deleteMany({})
+                        res.status(200).send("Todos los productos borrados")
+                }
         }
         catch (error) {
             console.log(`ERROR: ${error.stack}`);
-            res.status(400).json({msj:`ERROR: ${error.stack}`});
+            res.status(400).json({msj: error});
         }
         }
 

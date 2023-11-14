@@ -53,14 +53,25 @@ const Provider = require("../models/providers.models")
     const deleteProvider = async (req, res) => {
         try {
             const name = req.body.company_name || "";
-            name ? await Provider.deleteOne({company_name: name}) : await Provider.deleteMany({}) ; //{}
-            res.status(200).send("Proveedor borrado: " + name)
+            const provider = await Provider.findOne({company_name: name});
+            if (provider != null) {
+                await Provider.deleteOne({company_name: name})
+                res.status(200).send("Proveedor borrado: " + name)
+
+            } else if (provider == null && req.body.company_name) {
+                    res.status(404).send("Proveedor no encontrado: " + name)
+
+            } else if (provider == null && !req.body.company_name) {
+                    await await Provider.deleteMany({})
+                    res.status(200).send("Todos los proveedores borrados")
+            }
         }
         catch (error) {
             console.log(`ERROR: ${error.stack}`);
             res.status(400).json({msj:`ERROR: ${error.stack}`});
         }
-        }
+    }
+
 
     module.exports = {
         getProvider,

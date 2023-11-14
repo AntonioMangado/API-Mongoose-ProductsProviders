@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
+var url = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.CLUSTER}.gy9fed7.mongodb.net/${process.env.DATABASE_NAME}?retryWrites=true&w=majority`;
 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
@@ -22,15 +22,15 @@ MongoClient.connect(url, function(err, db) {
   ];
 
 
-    // dbo.collection("customers").insertMany(myobj, function(err, res) {
-    // if (err) throw err;
-    // console.log("Number of documents inserted: " + res.insertedCount);
-    // db.close();
-    // });
-
-  dbo.collection("customers").updateMany({name:/^M/},{$set:{name:"Mike"}}, function(err, res) {
+    dbo.collection("customers").insertMany(myobj, function(err, res) {
     if (err) throw err;
-    console.log("Número de documentos actualizados: " + res.modifiedCount);
+    console.log("Number of documents inserted: " + res.insertedCount);
     db.close();
-  });
+    });
+
+  // dbo.collection("customers").updateMany({name:/^M/},{$set:{name:"Mike"}}, function(err, res) {
+  //   if (err) throw err;
+  //   console.log("Número de documentos actualizados: " + res.modifiedCount);
+  //   db.close();
+  // });
 })
