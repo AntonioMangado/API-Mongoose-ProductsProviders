@@ -5,11 +5,10 @@ const Product = require("../models/products.models")
     try {
         const id = req.params.id || "";
         let products = id ? await Product
-                                    .find({id}, "-_id -__v")
-                                    .populate("Provider") : 
+                                    .find({id}, "-_id -__v") : 
             await Product
                     .find({}, "-_id -__v")
-                    .populate("Provider") ; //{}
+
         res.status(200).json(products);
     }
     catch (error) {
