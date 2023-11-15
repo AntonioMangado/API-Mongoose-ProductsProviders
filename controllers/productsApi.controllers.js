@@ -6,10 +6,10 @@ const Product = require("../models/products.models")
         const id = req.params.id || "";
         let products = id ? await Product
                                     .find({id}, "-_id -__v")
-                                    .populate("providers") : 
+                                    .populate("Provider") : 
             await Product
                     .find({}, "-_id -__v")
-                    .populate("providers") ; //{}
+                    .populate("Provider") ; //{}
         res.status(200).json(products);
     }
     catch (error) {
