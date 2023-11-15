@@ -4,7 +4,12 @@ const Product = require("../models/products.models")
     const getProduct = async (req, res) => {
     try {
         const id = req.params.id || "";
-        let products = id ? await Product.find({id}, "-_id -__v") : await Product.find({}, "-_id -__v") ; //{}
+        let products = id ? await Product
+                                    .find({id}, "-_id -__v")
+                                    .populate("provider") : 
+            await Product
+                    .find({}, "-_id -__v")
+                    .populate("provider") ; //{}
         res.status(200).json(products);
     }
     catch (error) {
